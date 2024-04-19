@@ -1,9 +1,9 @@
-<pre>             _____ _    _ _____              _ 
-       /\   |_   _| |  | |  __ \            | |
-      /  \    | | | |  | | |__) | __ ___  __| |
-     / /\ \   | | | |  | |  ___/ '__/ _ \/ _` |
-    / ____ \ _| |_| |__| | |   | | |  __/ (_| |
-   /_/    \_\_____|\____/|_|   |_|  \___|\__,_|</pre>
+<pre>          _____ _    _ _____              _ 
+    /\   |_   _| |  | |  __ \            | |
+   /  \    | | | |  | | |__) | __ ___  __| |
+  / /\ \   | | | |  | |  ___/ '__/ _ \/ _` |
+ / ____ \ _| |_| |__| | |   | | |  __/ (_| |
+/_/    \_\_____|\____/|_|   |_|  \___|\__,_|</pre>
 
 Made by Gabor Erdos and Zsuzsanna Dosztanyi \
 CAID3 version
@@ -12,7 +12,7 @@ CAID3 version
 
 AIPred is only dependent on PyTorch. In order to install it use
 
-`pip install pytorch`
+`pip install torch`
 
 or
 
