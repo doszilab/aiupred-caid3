@@ -20,6 +20,9 @@ or
 
 AIUPred was tested on PyTorch v 2.2.2 and Python 3.10.12
 
+AIUPred uses on an average 2.5GB RAM for a protein with 1000 residues. This number includes the loaded network(a) as well!
+
+AIUPred can utilize a dedicated GPU (NVidia) to seep up the prediction immensely. By default AIUPred searches for available GPUs and will use the fist indexed one. In case no GPU is found, AIUPred will fall back to CPU usage with a warning.
 # How to use
 
 ## Using the `aiupred.py` script
