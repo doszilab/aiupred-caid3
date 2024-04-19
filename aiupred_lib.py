@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 from torch import nn, Tensor
 from torch.nn.functional import pad
@@ -99,11 +100,29 @@ def predict(sequence, embedding_model, decoder_model, device, smoothing=None):
     return _prediction
 
 
+def low_memory_predict(sequence, embedding_model, decoder_model, device, smoothing=None, chunk_len=1000):
+    overlap = 100
+    if chunk_len <= overlap:
+        raise ValueError("Chunk len must be bigger than 200!")
+    overlapping_predictions = []
+    for chunk in range(0, len(sequence), chunk_len-overlap):
+        overlapping_predictions.append(predict(
+            sequence[chunk:chunk+chunk_len],
+            embedding_model,
+            decoder_model,
+            device
+        ))
+    prediction = np.concatenate((overlapping_predictions[0], *[x[overlap:] for x in overlapping_predictions[1:]]))
+    return prediction
+
+
 def multifasta_reader(file_handler):
     """
     (multi) FASTA reader function
     :return: Dictionary with header -> sequence mapping from the file
     """
+    if type(file_handler) == str:
+        file_handler = open(file_handler)
     sequence_dct = {}
     header = None
     for line in file_handler:
@@ -199,3 +218,7 @@ def main(multifasta_file, prediction_type, force_cpu=False, gpu_num=0):
     logging.StreamHandler.terminator = '\n'
     logging.debug('Analysis done, writing output')
     return results
+
+
+if __name__ == '__main__':
+    print("This is a library, this should not be called directly! Please refer to readme.md for more information!")

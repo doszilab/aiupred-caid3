@@ -101,6 +101,21 @@ sequence = 'THISISATESTSEQENCE'
 prediction = aiupred_lib.predict(sequence, embedding_model, regression_model, device)
 ```
 
+# Low memory prediction
+
+In case sufficient memory is not available (AIUPred required ~2.5GB of memory for 1000 residues) the aiupred_lib.py file contains a low memory prediction function.
+This function splits the sequence into `chunk_len` segments which overlap in 100 positions, carries out an iterative prediction and concatenates the results.
+Due to padding in during the decoder network the results are not 100% accurate, but the difference is negligible. 
+The `chunk_len` optional keyword argument can be set to lower the memory usage. By default it is set to 1000. Lowering this variable decreases memory usage but increases running time and lowers precision.
+
+Example:
+
+```python
+sequence = ['A', 'C', 'T', 'F', 'Q'] * 2000  # 10000 residue long sequence
+embedding, decoder, device = init_models('disorder')
+prediction = low_memory_predict(sequence, embedding, decoder, device)
+```
+
 # Method
 
 AIUPred uses an energy embedding transformer network followed by a specific fully connected decoder network for disorder and binding.
