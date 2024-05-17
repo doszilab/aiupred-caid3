@@ -86,10 +86,12 @@ def tokenize(sequence, device):
     return torch.tensor([AA_CODE.index(aa) if aa in AA_CODE else 20 for aa in sequence], device=device)
 
 
-def predict(sequence, embedding_model, decoder_model, device, smoothing=None):
+def predict(sequence, embedding_model, decoder_model, device, smoothing=None, energy_only=False):
     _tokens = tokenize(sequence, device)
     _padded_token = pad(_tokens, (WINDOW // 2, WINDOW // 2), 'constant', 0)
     _unfolded_tokes = _padded_token.unfold(0, WINDOW + 1, 1)
+    if energy_only:
+        return embedding_model(_unfolded_tokes).detach().cpu().numpy()
     _token_embedding = embedding_model(_unfolded_tokes, embed_only=True)
     _padded_embed = pad(_token_embedding, (0, 0, 0, 0, WINDOW // 2, WINDOW // 2), 'constant', 0)
     _unfolded_embedding = _padded_embed.unfold(0, WINDOW + 1, 1)
